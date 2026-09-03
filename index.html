@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es-SV">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leyendas Guanacas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Press+Start+2P&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game-container">
+
+    <!-- HUD -->
+    <div id="hud">
+      <div id="hearts"></div>
+      <div id="nivel-label">Cantón de Cabañas</div>
+    </div>
+
+    <canvas id="game" width="960" height="540"></canvas>
+
+    <!-- Caja de diálogo del Cadejo Blanco (no bloquea, va abajo) -->
+    <div id="dialogo-box" class="oculto">
+      <div id="dialogo-avatar">🐾</div>
+      <div id="dialogo-texto"></div>
+    </div>
+
+    <div id="pantalla-inicio" class="pantalla pantalla-inicio-gd">
+      <div class="gd-fondo">
+        <div class="gd-sol"></div>
+        <div class="gd-grid"></div>
+        <div class="gd-forma gd-triangulo forma1"></div>
+        <div class="gd-forma gd-cuadro forma2"></div>
+        <div class="gd-forma gd-triangulo forma3"></div>
+        <div class="gd-forma gd-cuadro forma4"></div>
+        <div class="gd-forma gd-triangulo forma5"></div>
+      </div>
+      <h1 class="titulo-juego">Leyendas Guanacas</h1>
+      <p class="subtitulo">Una noche en el canton</p>
+      <div class="premisa">
+        <p>Tu madre ha salido de la casa y tu aprovechas a ir a jugar con tus amigos en otro pasaje, se ha hecho de noche y no conoces sin embargo debes llegar antes a tu casa ya que no tenias permiso de salir 
+          en tu camino a casa te desvias por una zona con mucha vegetacion y te encuentras a un perro blanco el cual te ayudara a llegar a tu canvas
+          <p>¿Lograras llegar a tiempo?</p>
+        </p>
+      </div>
+      <button id="btn-empezar" class="btn-gd">
+        <span class="btn-gd-icono">▶</span>
+        <span>Salir a la tienda</span>
+      </button>
+      <p class="controles-hint">Movete con ← → o A/D · Saltá con ↑ / W / Espacio</p>
+    </div>
+
+  
+    <div id="pantalla-cargando" class="pantalla oculto">
+      <div class="carga-loader"></div>
+      <p class="carga-titulo" id="carga-texto"></p>
+      <div class="carga-barra-track">
+        <div id="carga-barra-fill"></div>
+      </div>
+    </div>
+
+    <!-- Pantalla de Game Over -->
+    <div id="pantalla-gameover" class="pantalla oculto">
+      <h1 class="titulo-gameover">Te ganó el cantón...</h1>
+      <p id="gameover-texto" class="subtitulo"></p>
+      <button id="btn-reintentar" class="btn-peligro">Reintentar</button>
+    </div>
+
+    <!-- Pantalla de victoria -->
+    <div id="pantalla-victoria" class="pantalla oculto">
+      <h1 class="titulo-juego">¡Llegaste a casa!</h1>
+      <p class="subtitulo">Tu mamá te recibe con un abrazo, cipote.</p>
+      <div class="premisa">
+        <p id="victoria-texto"></p>
+      </div>
+      <button id="btn-jugar-de-nuevo" class="btn-mistico">Jugar de nuevo</button>
+    </div>
+
+  </div>
+
+  <script src="js/dialogo.js"></script>
+  <script src="js/niveles.js"></script>
+  <script src="js/juego.js"></script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+:root {
+  --noche-950: #0A0E17;
+  --noche-900: #0D1220;
+  --noche-800: #121A2B;
+  --espectral: #2DD4A7;
+  --espectral-claro: #5EEAD4;
+  --peligro: #E23B4E;
+  --hueso: #E8E3D3;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--noche-950);
+  color: var(--hueso);
+  font-family: 'Spectral', serif;
+  overflow: hidden;
+}
+
+#game-container {
+  position: relative;
+  width: 960px;
+  max-width: 100vw;
+  margin: 0 auto;
+  height: 540px;
+  max-height: 100vh;
+  box-shadow: 0 0 60px rgba(45, 212, 167, 0.15);
+}
+
+canvas#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--noche-950);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* ---------- HUD ---------- */
+#hud {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 5;
+  pointer-events: none;
+  font-family: 'Cinzel Decorative', serif;
+}
+
+#hearts {
+  display: flex;
+  gap: 6px;
+  font-size: 22px;
+  filter: drop-shadow(0 0 6px rgba(226, 59, 78, 0.7));
+}
+
+.corazon-vacio {
+  opacity: 0.25;
+  filter: none;
+}
+
+#nivel-label {
+  font-family: 'Press Start 2P', 'Cinzel Decorative', serif;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--espectral-claro);
+  background: rgba(10, 14, 23, 0.6);
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: 2px solid var(--espectral);
+  image-rendering: pixelated;
+}
+
+/* ---------- Caja de diálogo del Cadejo Blanco ---------- */
+#dialogo-box {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 6;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(180deg, rgba(13, 18, 32, 0.92), rgba(10, 14, 23, 0.96));
+  border: 1px solid rgba(45, 212, 167, 0.35);
+  border-radius: 12px;
+  padding: 10px 16px;
+  max-width: 640px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#dialogo-box.oculto {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+#dialogo-avatar {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+#dialogo-texto {
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--hueso);
+}
+
+#dialogo-texto .quien {
+  color: var(--espectral-claro);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+/* ---------- Pantallas superpuestas ---------- */
+.pantalla {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(45,212,167,0.10), transparent),
+              var(--noche-950);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  transition: opacity 0.4s ease;
+}
+
+.pantalla.oculto {
+  display: none;
+}
+
+.titulo-juego {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 42px;
+  color: var(--espectral-claro);
+  text-shadow: 0 0 18px rgba(45, 212, 167, 0.5);
+  margin: 0 0 6px 0;
+  animation: flicker 3s ease-in-out infinite;
+}
+
+.titulo-gameover {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 38px;
+  color: var(--peligro);
+  text-shadow: 0 0 18px rgba(226, 59, 78, 0.6);
+  margin: 0 0 6px 0;
+}
+
+.subtitulo {
+  font-style: italic;
+  color: var(--espectral);
+  margin: 0 0 22px 0;
+  font-size: 16px;
+}
+
+.premisa {
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--hueso);
+  margin-bottom: 26px;
+}
+
+.premisa strong {
+  color: var(--espectral-claro);
+}
+
+.btn-mistico, .btn-peligro {
+  font-family: 'Press Start 2P', 'Cinzel Decorative', serif;
+  font-size: 12px;
+  padding: 14px 26px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  image-rendering: pixelated;
+  transition: transform 0.1s ease;
+}
+
+.btn-mistico {
+  background: linear-gradient(180deg, var(--espectral-claro), var(--espectral));
+  color: #0A0E17;
+  box-shadow: 0 6px 0 0 #1c8a6d, 0 10px 18px rgba(45, 212, 167, 0.4);
+}
+
+.btn-peligro {
+  background: linear-gradient(180deg, #F26A78, var(--peligro));
+  color: #fff;
+  box-shadow: 0 6px 0 0 #8f1c29, 0 10px 18px rgba(226, 59, 78, 0.4);
+}
+
+.btn-mistico:hover, .btn-peligro:hover {
+  transform: translateY(-2px);
+}
+
+.btn-mistico:active, .btn-peligro:active {
+  transform: translateY(4px);
+}
+.btn-mistico:active { box-shadow: 0 2px 0 0 #1c8a6d, 0 4px 10px rgba(45,212,167,0.3); }
+.btn-peligro:active { box-shadow: 0 2px 0 0 #8f1c29, 0 4px 10px rgba(226,59,78,0.3); }
+
+.controles-hint {
+  margin-top: 22px;
+  font-size: 12px;
+  color: rgba(232, 227, 211, 0.55);
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* ---------- Pantalla de inicio estilo Geometry Dash + retro 80s ---------- */
+.pantalla-inicio-gd {
+  overflow: hidden;
+}
+
+.pantalla-inicio-gd h1,
+.pantalla-inicio-gd .subtitulo,
+.pantalla-inicio-gd .premisa,
+.pantalla-inicio-gd .btn-gd,
+.pantalla-inicio-gd .controles-hint {
+  position: relative;
+  z-index: 1;
+}
+
+.gd-fondo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gd-sol {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 280px;
+  height: 280px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #FF7AC6 0%, #FF9A5A 32%, #FFD35A 58%, var(--espectral) 100%);
+  box-shadow: 0 0 90px rgba(255, 122, 198, 0.3);
+  opacity: 0.45;
+}
+
+.gd-grid {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+  height: 42%;
+  background-image:
+    linear-gradient(rgba(45, 212, 167, 0.35) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(45, 212, 167, 0.35) 2px, transparent 2px);
+  background-size: 42px 42px;
+  transform: perspective(220px) rotateX(58deg);
+  transform-origin: bottom;
+  opacity: 0.55;
+}
+
+.gd-forma {
+  position: absolute;
+  animation: gd-flotar 6s ease-in-out infinite;
+  image-rendering: pixelated;
+}
+
+.gd-triangulo {
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 34px solid var(--espectral);
+  filter: drop-shadow(0 0 10px rgba(45, 212, 167, 0.6));
+}
+
+.gd-cuadro {
+  width: 30px;
+  height: 30px;
+  background: var(--peligro);
+  box-shadow: 0 0 12px rgba(226, 59, 78, 0.6);
+}
+
+.forma1 { left: 8%; top: 18%; animation-delay: 0s; }
+.forma2 { left: 84%; top: 24%; animation-delay: 1.3s; }
+.forma3 { left: 16%; top: 66%; animation-delay: 2.4s; }
+.forma4 { left: 76%; top: 60%; animation-delay: 0.7s; }
+.forma5 { left: 46%; top: 12%; animation-delay: 1.9s; }
+
+@keyframes gd-flotar {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-22px) rotate(20deg); }
+}
+
+.btn-gd {
+  position: relative;
+  font-family: 'Press Start 2P', 'Cinzel Decorative', serif;
+  font-size: 13px;
+  color: #0A0E17;
+  background: linear-gradient(180deg, var(--espectral-claro), var(--espectral));
+  border: none;
+  padding: 18px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 0 0 #1c8a6d, 0 10px 20px rgba(45, 212, 167, 0.45);
+  image-rendering: pixelated;
+  animation: gd-pulso 1.6s ease-in-out infinite;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-gd-icono {
+  font-size: 16px;
+}
+
+.btn-gd:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 0 #1c8a6d, 0 4px 10px rgba(45, 212, 167, 0.4);
+}
+
+@keyframes gd-pulso {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+}
+
+/* ---------- Pantalla de carga de portal ---------- */
+#pantalla-cargando {
+  z-index: 15;
+}
+
+.carga-loader {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 24px;
+  background: var(--espectral-claro);
+  box-shadow: 0 0 16px rgba(45, 212, 167, 0.6);
+  animation: carga-loader-anim 0.9s steps(4) infinite;
+}
+
+@keyframes carga-loader-anim {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.carga-titulo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--espectral-claro);
+  text-shadow: 0 0 14px rgba(45, 212, 167, 0.6);
+  max-width: 620px;
+  margin: 0 0 30px 0;
+}
+
+.carga-barra-track {
+  width: 320px;
+  max-width: 70vw;
+  height: 18px;
+  border: 3px solid var(--espectral);
+  background: rgba(10, 14, 23, 0.8);
+  padding: 3px;
+  box-shadow: 0 0 16px rgba(45, 212, 167, 0.35);
+}
+
+#carga-barra-fill {
+  height: 100%;
+  width: 0%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--espectral-claro) 0 8px,
+    var(--espectral) 8px 16px
+  );
+}
+
+@media (max-width: 960px) {
+  #game-container {
+    width: 100vw;
+    height: 56.25vw;
+  }
+}
